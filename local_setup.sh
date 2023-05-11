@@ -24,5 +24,9 @@ docker stop agentgpt
 docker rm agentgpt
 
 source .env.docker
-docker build --build-arg NODE_ENV=$NODE_ENV --build-arg LOCAL_PROXY=$LOCAL_PROXY --network host -f local_Dockerfile -t agentgpt . 
+docker build --no-cache --build-arg NODE_ENV=$NODE_ENV --build-arg LOCAL_PROXY=$LOCAL_PROXY --network host -f local_Dockerfile -t agentgpt . 
 docker run -d --name agentgpt -p 3000:3000 -v $(pwd)/db:/app/db agentgpt
+
+cd ..
+sleep 10
+xdg-open http://localhost:3000
