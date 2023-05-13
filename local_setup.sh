@@ -5,12 +5,13 @@ OPENAI_API_KEY=""
 
 NEXTAUTH_SECRET=$(openssl rand -base64 32)
 
-LAN_PROXY=http://192.168.1.6:8889
-LOCAL_PROXY=http://127.0.0.1:8889
+LAN_PROXY=socks5://192.168.1.6:1089
+LOCAL_PROXY=socks5://127.0.0.1:1089
 
 ENV="NODE_ENV=development\n\
 NEXTAUTH_SECRET=$NEXTAUTH_SECRET\n\
 NEXTAUTH_URL=http://localhost:3000\n\
+NEXT_PUBLIC_BACKEND_URL=http://localhost:3000\n\
 OPENAI_API_KEY=$OPENAI_API_KEY\n\
 DATABASE_URL=file:../db/db.sqlite\n\
 HTTP_PRXY=$LAN_PROXY\n\
@@ -24,8 +25,10 @@ docker stop agentgpt
 docker rm agentgpt
 
 source .env.docker
-docker build --no-cache --build-arg NODE_ENV=$NODE_ENV --build-arg LOCAL_PROXY=$LOCAL_PROXY --network host -f local_Dockerfile -t agentgpt . 
-docker run -d --name agentgpt -p 3000:3000 -v $(pwd)/db:/app/db agentgpt
+#NO_CACHE="--no-cache"
+NO_CACHE=""
+docker build $NO_CACHE --build-arg NODE_ENV=$NODE_ENV --build-arg LOCAL_PROXY=$LOCAL_PROXY --network host -f local_Dockerfile -t agentgpt . 
+docker run -d --name agentgpt -p 3000:3000 -v $(pwd)/db:/app/db agentgpt --network host
 
 cd ..
 sleep 10
