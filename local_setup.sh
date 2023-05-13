@@ -14,8 +14,8 @@ NEXTAUTH_URL=http://localhost:3000\n\
 NEXT_PUBLIC_BACKEND_URL=http://localhost:3000\n\
 OPENAI_API_KEY=$OPENAI_API_KEY\n\
 DATABASE_URL=file:../db/db.sqlite\n\
-HTTP_PRXY=$LAN_PROXY\n\
-HTTPS_PRXY=$LAN_PROXY\n"
+HTTP_PROXY=$LAN_PROXY\n\
+HTTPS_PROXY=$LAN_PROXY\n"
 
 cd next
 printf $ENV > .env
@@ -28,7 +28,7 @@ source .env.docker
 #NO_CACHE="--no-cache"
 NO_CACHE=""
 docker build $NO_CACHE --build-arg NODE_ENV=$NODE_ENV --build-arg LOCAL_PROXY=$LOCAL_PROXY --network host -f local_Dockerfile -t agentgpt . 
-docker run -d --name agentgpt -p 3000:3000 -v $(pwd)/db:/app/db agentgpt --network host
+docker run -d --name agentgpt -p 3000:3000 -v $(pwd)/db:/app/db agentgpt
 
 cd ..
 sleep 10

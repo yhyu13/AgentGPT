@@ -14,8 +14,8 @@ NEXTAUTH_URL=http://localhost:3000\n\
 NEXT_PUBLIC_BACKEND_URL=http://localhost:3000\n\
 OPENAI_API_KEY=$OPENAI_API_KEY\n\
 DATABASE_URL=file:../db/db.sqlite\n\
-HTTP_PRXY=$LAN_PROXY\n\
-HTTPS_PRXY=$LAN_PROXY\n"
+HTTP_PROXY=$LAN_PROXY\n\
+HTTPS_PROXY=$LAN_PROXY\n"
 
 cd next
 printf $ENV > .env
