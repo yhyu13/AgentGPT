@@ -17,7 +17,7 @@ HTTPS_PROXY=$HTTPS_PROXY\n"
 
 echo $ENV
 
-cd next
+#cd next
 printf $ENV > .env
 printf $ENV > .env.docker
 
