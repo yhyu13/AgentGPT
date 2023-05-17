@@ -96,11 +96,15 @@ export class Serper extends Tool {
       }),
     };
 
+    console.log("Execution serp:", options);
+
     const res = await fetch("https://google.serper.dev/search", options);
 
     if (!res.ok) {
       console.error(`Got ${res.status} error from serper: ${res.statusText}`);
     }
+
+    console.log(`Got ${res.status} status from serper: ${res.statusText}`);
 
     return res;
   }

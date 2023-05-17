@@ -7,7 +7,10 @@ ENV="NODE_ENV=development\n\
 NEXTAUTH_SECRET=$NEXTAUTH_SECRET\n\
 NEXTAUTH_URL=http://localhost:3000\n\
 OPENAI_API_KEY=$OPENAI_API_KEY\n\
-DATABASE_URL=file:../db/db.sqlite\n"
+DATABASE_URL=file:../db/db.sqlite\n\
+SERP_API_KEY=$SERP_API_KEY\n\
+HTTP_PROXY=$HTTP_PROXY\n\
+HTTPS_PROXY=$HTTPS_PROXY\n"
 
 printf $ENV > .env
 
@@ -22,5 +25,5 @@ else
   printf $ENV > .env
   ./prisma/useSqlite.sh
   npm install
-  npm run dev
+  npm run dev --inspect
 fi
