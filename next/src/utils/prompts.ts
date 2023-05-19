@@ -45,17 +45,17 @@ export const analyzeTaskPrompt = new PromptTemplate({
 
 export const executeTaskPrompt = new PromptTemplate({
   template:
-    'Answer in the "{language}" language. Given the following overall objective `{goal}` and the following sub-task, `{task}`. Perform the task in a detailed manner. If coding is required, provide code in markdown.',
+    'Answer in the "{language}" language. Given the following overall objective `{goal}` and the following sub-task, `{task}`. Perform the task in a detailed manner. Begin with writing your obversations on goal and task so far in format "Observations :\\n xxxxx \\n", then write down your thoughts on how to perform the task in format "Thought :\\n xxxxx \\n". Finally write your actions to perform the task in format "Action :\\n xxxxx \\n". If coding is required, provide code in markdown.',
   inputVariables: ["goal", "language", "task"],
 });
 
 export const createTasksPrompt = new PromptTemplate({
   template:
     'You are an AI task creation agent. You must answer in the "{language}" language. You have the following objective `{goal}`. You have the following incomplete tasks `{tasks}` and have just executed the following task `{lastTask}` and received the following result `{result}`. Based on this, create a new task to be completed by your AI system ONLY IF NEEDED such that your goal is more closely reached or completely reached. Return the response as an array of strings that can be used in JSON.parse() and NOTHING ELSE.',
-  inputVariables: ["goal", "language", "tasks", "lastTask", "result"],
+  inputVariables: ["goal", "language", "tasks", "lastTask", "result"], 
 });
 
 export const summarizeSearchSnippets = new PromptTemplate({
-  template: `Summarize the following snippets "{snippets}" from google search results filling in information where necessary. This summary should answer the following query: "{query}" with the following goal "{goal}" in mind. Return the summary as a string. Do not show you are summarizing.`,
+  template: `Summarize the following snippets "{snippets}" from google search results filling in information where necessary. This summary should answer the following query: "{query}" with the following goal "{goal}" in mind. Return the summary as a string with bullet points. Do not show you are summarizing.`,
   inputVariables: ["goal", "query", "snippets"],
 });
