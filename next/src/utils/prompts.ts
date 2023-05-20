@@ -56,6 +56,6 @@ export const createTasksPrompt = new PromptTemplate({
 });
 
 export const summarizeSearchSnippets = new PromptTemplate({
-  template: `Summarize the following snippets "{snippets}" from google search results filling in information where necessary. This summary should answer the following query: "{query}" with the following goal "{goal}" in mind. Return the summary as a string with bullet points. Do not show you are summarizing.`,
+  template: `Summarize the following snippets "{snippets}" from google search results. This summary should answer the following query: "{query}" with the following goal "{goal}" in mind. Return the summary as a string with bullet points. Do not show you are summarizing. Snippets are in this format "[^1]: xxxx\\n [^2]: xxxx, etc". Each summary point should have the snippet reference index as an upper corner footnote, e.g - xxxx[^1]\\n- xxxx[^2]`,
   inputVariables: ["goal", "query", "snippets"],
 });

@@ -66,18 +66,20 @@ export class Serper extends Tool {
     }
 
     if (searchResult.organic?.[0]?.snippet) {
-      const snippets = searchResult.organic.map((result) => result.snippet);
+      const links = searchResult.organic.map((result) => result.link);
+      const titles = searchResult.organic.map((result) => result.title);
+      // Embed index to snippet
+      const snippets = searchResult.organic.map((result, index) => `[^${index}]: ${result.snippet}`);
+      
       const summary = await summarizeSnippets(
         this.modelSettings,
         this.goal,
         input,
         snippets
       );
-      const resultsToLink = searchResult.organic.slice(0, 3);
-      const links = resultsToLink.map((result) => result.link);
 
       return `${summary}\n\nLinks:\n${links
-        .map((link) => `- ${link}`)
+        .map((link, index) => `[^${index}]: [${titles[index]}](${link})`)
         .join("\n")}`;
     }
 
