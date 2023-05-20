@@ -39,7 +39,7 @@ export const SettingsDialog: React.FC<{
 
   function keyIsValid(key: string | undefined) {
     const pattern = /^sk-[a-zA-Z0-9]{48}$/;
-    return key && pattern.test(key);
+    return true;//key && pattern.test(key);
   }
 
   const handleSave = () => {
