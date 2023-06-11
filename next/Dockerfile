@@ -5,6 +5,11 @@ ARG NODE_ENV
 
 ENV NODE_ENV=$NODE_ENV
 
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
+ENV HTTP_PROXY=$HTTP_PROXY
+ENV HTTPS_PROXY=$HTTPS_PROXY
+
 # Needed for the wait-for-db script
 RUN apk add --no-cache netcat-openbsd
 

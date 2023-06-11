@@ -1,7 +1,9 @@
 #!/bin/sh
 
-host=db
-port=3306
+source .env
+
+host=$db
+port=$DATABASE_PORT
 
 until echo "SELECT 1;" | nc "$host" "$port" > /dev/null 2>&1; do
   >&2 echo "Database is unavailable - Sleeping..."

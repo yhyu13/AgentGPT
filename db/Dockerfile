@@ -1,3 +1,8 @@
 FROM mysql:8.0
 
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
+ENV HTTP_PROXY=$HTTP_PROXY
+ENV HTTPS_PROXY=$HTTPS_PROXY
+
 ADD setup.sql /docker-entrypoint-initdb.d
