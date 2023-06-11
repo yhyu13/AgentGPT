@@ -48,7 +48,7 @@ def get_app() -> FastAPI:
         )
     app = FastAPI(
         title="Reworkd Platform API",
-        version=metadata.version("reworkd_platform"),
+        version="0.7.0", # hardcode version for now
         docs_url="/api/docs",
         redoc_url="/api/redoc",
         openapi_url="/api/openapi.json",

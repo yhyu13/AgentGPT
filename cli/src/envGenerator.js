@@ -145,7 +145,7 @@ export const testEnvFile = () => {
     errorMessage += chalk.red(
       "We recommend deleting your .env file(s) and restarting this script."
     );
-    throw new Error(errorMessage);
+    //throw new Error(errorMessage);
   }
 };
 

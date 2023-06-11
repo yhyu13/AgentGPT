@@ -1,5 +1,10 @@
 FROM python:3.11-slim-buster as prod
 
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
+ENV HTTP_PROXY=$HTTP_PROXY
+ENV HTTPS_PROXY=$HTTPS_PROXY
+
 RUN apt-get update && apt-get install -y \
   default-libmysqlclient-dev \
   gcc \
@@ -32,10 +37,10 @@ RUN chmod +x /app/src/entrypoint.sh
 RUN apt-get update && apt-get install -y netcat-openbsd dos2unix \
     && dos2unix /app/src/entrypoint.sh \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-#ENTRYPOINT ["sh", "entrypoint.sh"]
 
+ENTRYPOINT ["sh", "entrypoint.sh"]
 
-CMD ["/usr/local/bin/python", "-m", "reworkd_platform"]
+CMD ["poetry", "run", "python", "-m", "reworkd_platform"]
 
 FROM prod as dev
 
