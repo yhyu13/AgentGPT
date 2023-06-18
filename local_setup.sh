@@ -8,13 +8,17 @@ cp .local_env ./platform/.env.docker
 
 cd next
 
-if [ "$1" = "--docker" ]; then
-  cd ..
-  docker-compose -f ./local-docker-compose.yml up --remove-orphans --build
-else
-  npm install
-  # ./prisma/useSqlite.sh
-  # #prisma db push
-  # npx prisma db push
-  npm run dev
-fi
+# if [ "$1" = "--docker" ]; then
+#   cd ..
+#   docker-compose -f ./local-docker-compose.yml up --remove-orphans --build
+# else
+#   npm install
+#   # ./prisma/useSqlite.sh
+#   # #prisma db push
+#   # npx prisma db push
+#   npm run dev
+# fi
+
+# Local build does not work at this moment
+cd ..
+docker-compose -f ./local-docker-compose.yml up --remove-orphans --build
