@@ -9,6 +9,8 @@ from reworkd_platform.web.api.agent.tools.stream_mock import stream_string
 from reworkd_platform.web.api.agent.tools.tool import Tool
 from reworkd_platform.web.api.agent.tools.utils import summarize
 
+import json
+
 # Search google via serper.dev. Adapted from LangChain
 # https://github.com/hwchase17/langchain/blob/master/langchain/utilities
 
@@ -51,11 +53,14 @@ class Search(Tool):
         results = await _google_serper_search_results(
             input_str,
         )
-
-        k = 6  # Number of results to return
-        max_links = 3  # Number of links to return
+        # yhyu13 : do not limit the number of results
+        k = 999 #6 # Number of results to return
+        max_links = 999 #3 # Number of links to return
         snippets: List[str] = []
         links: List[str] = []
+        # yhyu13 : explicit store knwoledge graph
+        knowledgeGraph: List[str] = []
+        titles: List[str] = []
 
         if results.get("answerBox"):
             answer_values = []
@@ -75,25 +80,42 @@ class Search(Tool):
             title = kg.get("title")
             entity_type = kg.get("type")
             if entity_type:
-                snippets.append(f"{title}: {entity_type}.")
+                knowledgeGraph.append(f"{title}: {entity_type}.")
             description = kg.get("description")
             if description:
-                snippets.append(description)
+                knowledgeGraph.append(description)
             for attribute, value in kg.get("attributes", {}).items():
-                snippets.append(f"{title} {attribute}: {value}.")
+                knowledgeGraph.append(f"{title} {attribute}: {value}.")
+            print(f'add knowledgeGraph : {knowledgeGraph}')
 
+        index = 0
         for result in results["organic"][:k]:
+            data = {}
+            attributes = []
             if "snippet" in result:
-                snippets.append(result["snippet"])
-            if "link" in result and len(links) < max_links:
+                data["snippet"] = result["snippet"]
+            if "link" in result and "title" in result:
                 links.append(result["link"])
+                titles.append(result["title"])
+            else:
+                continue
             for attribute, value in result.get("attributes", {}).items():
-                snippets.append(f"{attribute}: {value}.")
-
+                attributes.append(f"{attribute}: {value}")
+            data["attribute"] = ",".join(attributes) if len(attributes) > 0 else ""
+            
+            data_str = f'[{index}] : {json.dumps(data)}'
+            print(f'add snippet : {data_str}')
+            snippets.append(data_str)
+            index += 1
+            
         if len(snippets) == 0:
             return stream_string("No good Google Search Result was found", True)
+        links_str = "\n\nLinks:\n"
+        for i in range(len(links)):
+            links_str += f"[^{i}]: [{titles[i]}]({links[i]})\n"
+        print(links_str)
 
-        return summarize(self.model_settings, goal, task, snippets)
+        return summarize(self.model_settings, goal, task, snippets, knowledgeGraph, links_str)
 
         # TODO: Stream with formatting
         # return f"{summary}\n\nLinks:\n" + "\n".join([f"- {link}" for link in links])

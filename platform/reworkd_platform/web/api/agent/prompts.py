@@ -102,9 +102,8 @@ create_tasks_prompt = PromptTemplate(
 )
 
 summarize_prompt = PromptTemplate(
-    template="""Summarize the following text "{snippets}" Write in a style expected
+    template="""Summarize the following text "{snippets}" and "{knowledgeGraph}" Write in a style expected
     of the goal "{goal}", be as concise or as descriptive as necessary and attempt to
-    answer the query: "{query}" as best as possible. Use markdown formatting for
-    longer responses.""",
-    input_variables=["goal", "query", "snippets"],
+    answer the query: "{query}" as best as possible. Use markdown formatting. Simply paste the "{links_str}" at the very last.""",
+    input_variables=["goal", "query", "snippets", "knowledgeGraph", "links_str"],
 )

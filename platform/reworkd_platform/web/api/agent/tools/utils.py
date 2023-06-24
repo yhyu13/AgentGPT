@@ -9,7 +9,7 @@ from reworkd_platform.web.api.agent.model_settings import create_model
 
 
 def summarize(
-    model_settings: ModelSettings, goal: str, query: str, snippets: List[str]
+    model_settings: ModelSettings, goal: str, query: str, snippets: List[str], knowledgeGraph: str, links_str: str
 ) -> FastAPIStreamingResponse:
     from reworkd_platform.web.api.agent.prompts import summarize_prompt
 
@@ -19,6 +19,6 @@ def summarize(
 
     return StreamingResponse.from_chain(
         chain,
-        {"goal": goal, "query": query, "snippets": snippets},
-        media_type="text/event-stream",
+        {"goal": goal, "query": query, "snippets": snippets, "knowledgeGraph": knowledgeGraph, "links_str": links_str},
+        media_type="text/event-stream"
     )
