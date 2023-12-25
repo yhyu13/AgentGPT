@@ -32,6 +32,10 @@ def get_agent_service(
     ) -> AgentService:
         if settings.ff_mock_mode_enabled:
             return MockAgentService()
+        
+        # Force model to gpt-4
+        llm_model = 'gpt-4'
+        run.model_settings.model = llm_model
 
         model = create_model(
             settings,
